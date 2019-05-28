@@ -1,0 +1,3 @@
+services: 
+   KimaiPlugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator:
+      arguments: ['@security.authentication.guard_handler','@logger','@fos_user.user_manager']

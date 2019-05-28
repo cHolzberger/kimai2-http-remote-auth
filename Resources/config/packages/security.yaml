@@ -1,0 +1,17 @@
+security:
+    firewalls:
+        http_remote_user:
+            pattern: ^/remote_user/
+            guard:
+                authenticators:
+                    - Plugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator
+            access_control:
+            - { path: '^/(%app_locales%)/remote_user$', role: IS_AUTHENTICATED_ANONYMOUSLY }
+        secured_area:
+            guard:
+                stateless: true
+                authenticators:
+                    - Plugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator
+                entry_point: Plugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator
+            
+           

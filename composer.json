@@ -1,10 +1,11 @@
 {
-    "name": "cholzberger/kimai2-remote-user",
+    "name": "cholzberger/kimai2-http-remote-auth",
     "description": "trust remote-user header",
-    "homepage": "",
+    "homepage": "https://mosaiksoftware.de",
     "type": "kimai-plugin",
     "require": {
-        "kimai/kimai2-composer": "*"
+        "kimai/kimai2-composer": "*",
+        "symfony/security-bundle": "^4.2"
     },
     "keywords": [
         "kimai",
@@ -22,7 +23,7 @@
         "kimai": {
             "require": "0.9",
             "version": "0.1",
-            "name": "HttpRemoteUser"
+            "name": "HttpRemoteAuthBundle"
         }
     }
 }
