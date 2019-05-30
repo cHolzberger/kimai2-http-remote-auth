@@ -1,3 +1,25 @@
 services: 
+   _defaults:
+      autowire: true      # Automatically injects dependencies in your services.
+      autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+      public: false
+   KimaiPlugin\HttpRemoteAuthBundle\Controller\:
+      resource: '../../Controller/'
+      tags: ['controller.service_arguments']
+   KimaiPlugin\HttpRemoteAuthBundle\Controller\HttpRemoteAuthController:
+      arguments: ['@security.authentication.guard_handler','@fos_user.user_manager', '@KimaiPlugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator']
    KimaiPlugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator:
       arguments: ['@security.authentication.guard_handler','@logger','@fos_user.user_manager']
+
+# security:
+#     firewalls:
+#         http_remote_user:
+#             stateless: true
+#             pattern: ^/remote_user/
+#             guard:
+#                 authenticators:
+#                     - Plugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator
+#             access_control:
+#             - { path: '^/(%app_locales%)/remote_user$', role: IS_AUTHENTICATED_ANONYMOUSLY }
+       
+            

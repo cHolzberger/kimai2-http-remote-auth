@@ -1,0 +1,12 @@
+
+{% block main %}
+<p>
+Remote User Login
+</p>
+<p>
+Messages:
+  {% for log in auth_msg %}
+        <li>{{ log.action }}: {{log.data}}</li>
+    {% endfor %}
+</p>
+{% endblock %}

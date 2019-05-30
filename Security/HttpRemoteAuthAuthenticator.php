@@ -34,8 +34,6 @@ class HttpRemoteAuthAuthenticator extends AbstractGuardAuthenticator
      * @var GuardAuthenticationHandler
      */
     protected $gh;
-	
-
     protected $logger;
     protected $userManager;
     /**
@@ -43,7 +41,7 @@ class HttpRemoteAuthAuthenticator extends AbstractGuardAuthenticator
      * @param UserManagerInterface $um
      * @param LoggerInterface $l
      */
-    public function __construct (GuardAuthenticatorHandler $gh, UserManagerInterface $um, LoggerInterface $l)
+    public function __construct (GuardAuthenticatorHandler $gh,  LoggerInterface $l, UserManagerInterface $um)
     {
 	    $this->gh = $gh;
 	    $this->logger = $l;
