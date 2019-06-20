@@ -75,7 +75,7 @@ class HttpRemoteAuthController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
-     * @Route(path="/remote/auth", name="remote_auth", methods={"GET"})
+     * @Route(path="/oauth2/callback", name="remote_auth", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
