@@ -11,6 +11,11 @@ services:
    KimaiPlugin\HttpRemoteAuthBundle\Security\HttpRemoteAuthAuthenticator:
       arguments: ['@security.authentication.guard_handler','@logger','@fos_user.user_manager']
 
+   
+   kernel.listener.http_remote_auth:
+        class: KimaiPlugin\HttpRemoteAuthBundle\Listener\HttpRemoteAuthEventListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 # security:
 #     firewalls:
 #         http_remote_user:

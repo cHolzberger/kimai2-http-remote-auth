@@ -41,7 +41,7 @@ class HttpRemoteAuthController extends AbstractController
         $this->authenticator = $authenticator;
     }
 
-    private function loginRemoteAuth($request) {
+    public function loginRemoteAuth($request) {
         $username = $request->headers->get(self::HEADER_USERNAME);
         $email = $request->headers->get(self::HEADER_EMAIL);
 

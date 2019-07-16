@@ -6,7 +6,8 @@ If the User doesn't exist it creates a user object and assignes the USER Role
 
 ## Installation 
 Install Kimai as usual, then: 
-``` cd var/plugin 
+``` 
+cd var/plugin 
 git clone ... HttpRemoteAuthBundle
 ```
 and you are done

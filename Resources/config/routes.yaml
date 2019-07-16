@@ -3,6 +3,7 @@ controllers:
     resource: '../../Controller/'
     type: annotation
 
+
 app_dummy:
     resource: "@HttpRemoteAuthBundle/Controller/HttpRemoteAuthController.php"
     type: annotation
