@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -x 
+set -a 
+
+if [[ -z $__CI__ ]]; then
+source /srv/library/bin/commonInstance.sh
+fi 
+
+# ensure we are in the right directory, s6 overlay does copy things arond
+cd "$PROJECT_PATH"
+pwd
+echo "Creating $PROJECT_NAME in $PROJECT_PATH"
+echo "With ServiceName: $SERVICE_NAME"
+echo "And Group: $GROUP_NAME"
+
+COMMAND=( up )
+COMMAND+=( $@ )
+
+if [ -e $PROJECT_PATH/cfg/current/dotenv.sh ]; then
+	source $PROJECT_PATH/cfg/current/dotenv.sh
+fi
+if [ -e $PROJECT_PATH/cfg/current/docker-compose.yml ]; then
+	
+	echo docker-compose ${COMPOSE_ARGS_CURRENT[@]} ${COMMAND[@]}
+	exec docker-compose ${COMPOSE_ARGS_CURRENT[@]} ${COMMAND[@]}
+else 
+	echo "Missing up-to-date configuration, please generate on using instance-reconfigure"
+fi
+#exec docker-compose  ${COMPOSE_ARGS[@]} logs -f --tail="1"

@@ -1,0 +1,3 @@
+services: 
+  App\Security\JwtAuthenticator:
+      arguments: ['@security.authentication.guard_handler','@logger','@fos_user.user_manager']

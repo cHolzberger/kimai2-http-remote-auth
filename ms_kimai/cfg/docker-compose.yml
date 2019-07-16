@@ -1,0 +1,74 @@
+version: "3.7"
+x-service: &service
+    hostname: ${SERVICE_NAME}
+    domainname: ${PROJECT_NAME}.${GROUP_NAME}
+    container_name: ${PROJECT_NAME}
+    restart: unless-stopped
+    labels: &service-labels
+       SERVICE_C_GROUP: ${GROUP_NAME}
+       SERVICE_C_TEMPLATE: ${TEMPLATE_NAME} 
+       SERVICE_I_PROJECT: ${PROJECT_NAME}
+       SERVICE_I_NAME: ${SERVICE_NAME}
+    networks: &service-networks
+      default:
+
+x-service-network: &service-network
+  default:
+
+      
+x-exposed-service: &exposed-service
+    << : *service
+    networks: &exposed-service-networks
+      << : *service-networks
+      s_expose:
+
+x-exposed-network: &exposed-network
+    s_expose: 
+      external: true
+
+
+x-db-postgres-service: &db-postgres-service
+    << : *service
+    networks: &db-postgres-service-networks
+      << : *service-networks
+      s_pgsql:
+
+x-db-postgres-network: &db-postgres-network
+      s_pgsql:
+        external: true
+version: "3.7"
+services:
+  kimai:
+    container_name: "${PROJECT_NAME}"
+    image: hub.ad.mosaiksoftware.de/mosaiksoftware/kimai2
+    restart: unless-stopped
+    ports:
+      - "80"
+    networks:
+      - db
+      - s_expose
+      - default
+    secrets:
+      - app
+      - source: config
+        target: /run/config/app
+    labels:
+      SERVICE_NAME: ${PROJECT_NAME}
+      SERVICE_C_GROUP: ${GROUP_NAME}
+      SERVICE_C_TEMPLATE: ${TEMPLATE_NAME} 
+      SERVICE_I_PROJECT: ${PROJECT_NAME}
+      SERVICE_I_NAME: ${SERVICE_NAME}
+
+secrets:
+  app:
+    file: appsecrets
+  config:
+    file: appconfig
+networks:
+  default:
+  db: 
+    external:
+      name: s_mysql
+  s_expose:
+    external:
+      name: s_expose

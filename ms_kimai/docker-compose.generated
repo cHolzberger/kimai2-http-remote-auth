@@ -1,0 +1,36 @@
+networks:
+  db:
+    external: true
+    name: s_mysql
+  default: {}
+  s_expose:
+    external: true
+    name: s_expose
+secrets:
+  app:
+    file: /srv/groups/ms_kimai/appsecrets
+  config:
+    file: /srv/groups/ms_kimai/appconfig
+services:
+  kimai:
+    container_name: ms_kimai
+    image: hub.ad.mosaiksoftware.de/mosaiksoftware/kimai2
+    labels:
+      SERVICE_C_GROUP: ms
+      SERVICE_C_TEMPLATE: groupware/kimai
+      SERVICE_I_NAME: kimai
+      SERVICE_I_PROJECT: ms_kimai
+      SERVICE_NAME: ms_kimai
+    networks:
+      db: null
+      default: null
+      s_expose: null
+    ports:
+    - target: 80
+    restart: unless-stopped
+    secrets:
+    - source: app
+    - source: config
+      target: /run/config/app
+version: '3.7'
+

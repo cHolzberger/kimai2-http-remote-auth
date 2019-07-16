@@ -1,0 +1,63 @@
+version: "3.7"
+x-host-service: &host-service
+    hostname: ${SERVICE_NAME}
+    domainname: ${SERVICE_DOMAINNAME}
+    container_name: ${PROJECT_NAME}
+    restart: unless-stopped
+    labels: &service-labels
+       SERVICE_C_GROUP: ${GROUP_NAME}
+       SERVICE_C_TEMPLATE: ${TEMPLATE_NAME} 
+       SERVICE_I_PROJECT: ${PROJECT_NAME}
+       SERVICE_I_NAME: ${SERVICE_NAME}
+ 
+x-log-fluent: &log-fluent
+ driver: fluentd
+ options: &opt-fluent
+   fluentd-address: unix:///srv/datastore/system_fluent-bit/logs/log.sock
+
+x-service: &service
+   <<: *host-service  
+   networks: &service-networks
+      default:
+
+x-service-network: &service-network
+  default:
+
+      
+x-exposed-service: &exposed-service
+    << : *service
+    networks: &exposed-service-networks
+      << : *service-networks
+      s_expose:
+
+x-exposed-network: &exposed-network
+    s_expose: 
+      external: true
+
+x-exposed-system-network: &exposed-system-network
+    s_exposed_system: 
+      external: true
+
+
+
+x-db-postgres-service: &db-postgres-service
+    << : *service
+    networks: &db-postgres-service-networks
+      << : *service-networks
+      s_pgsql:
+
+x-db-postgres-network: &db-postgres-network
+      s_pgsql:
+        external: true
+services:
+  oauth:
+    <<: *exposed-service
+    container_name: ${PROJECT_NAME}_oauth
+    hostname: ${SERVICE_NAME}_oauth
+    dns: 10.10.20.200
+    image: hub.ad.mosaiksoftware.de/mosaiksoftware/oauth2_proxy
+    restart: unless-stopped
+    command: -approval-prompt=select_account -skip-provider-button -http-address=:4180 -set-xauthrequest -upstream=https://${OAUTH_CLIENT_DOMAIN} -set-authorization-header -provider=oidc -client-id=${OAUTH_CLIENT_ID} -client-secret=${OAUTH_CLIENT_SECRET} -redirect-url=https://${OAUTH_CLIENT_DOMAIN}/oauth2/callback -oidc-issuer-url=https://${OAUTH_ISSUER_DOMAIN} -cookie-secret=$OAUTH_COOKIE_SECRET -email-domain=*
+
+networks:    
+  <<: *exposed-network

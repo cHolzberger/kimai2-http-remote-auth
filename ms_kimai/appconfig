@@ -1,0 +1,12 @@
+DATABASE_PREFIX=kimai2_
+MAILER_FROM=kimai@example.com
+APP_ENV=prod
+TRUSTED_PROXIES=false
+TRUSTED_HOSTS=false
+MAILER_URL=null://localhost
+SQL_PROTOCOL=mysql
+SQL_DATABASE=kimai_production
+SQL_HOST=db
+SQL_PORT=3306
+RUNDIR=/var/www/html
+TZ=Europe/London
